@@ -3,20 +3,32 @@ import UpcomingBlocks from './components/UpcomingBlocks';
 import { useTetris } from './hooks/useTetris';
 
 function App() {
-  const { board, startGame, isPlaying, score, upcomingBlocks } = useTetris();
-
+  const { board, startGame, isPlaying, score, upcomingBlocks } = useTetris('a', 'd', 'w', 's');
+  const { board: board2, startGame: startGame2, isPlaying: isPlaying2, score: score2, upcomingBlocks: upcomingBlocks2 } = useTetris('ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown');
+  
+  
   return (
     <div className="app">
-      <h1>Tetris</h1>
-      <Board currentBoard={board} />
-      <div className="controls">
-        <h2>Score: {score}</h2>
+      <div className='misc'>
+        <h2>{score}</h2>
+        <h2>{score2}</h2>
         {isPlaying ? (
           <UpcomingBlocks upcomingBlocks={upcomingBlocks} />
         ) : (
-          <button onClick={startGame}>New Game</button>
+          <button className='upcoming' onClick={() => {
+            startGame();
+            startGame2();
+          }}>New Game</button>
+        )}
+        {isPlaying2 ? (
+          <UpcomingBlocks upcomingBlocks={upcomingBlocks2} />
+        ) : (
+          <div className="upcoming"></div>
         )}
       </div>
+      <Board currentBoard={board} />
+      <Board currentBoard={board2} />
+      
     </div>
   );
 }

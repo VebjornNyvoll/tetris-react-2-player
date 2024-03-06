@@ -10,12 +10,12 @@ import {
 } from './useTetrisBoard';
 
 enum TickSpeed {
-  Normal = 800,
+  Normal = 450,
   Sliding = 100,
   Fast = 50,
 }
 
-export function useTetris() {
+export function useTetris(left: string, right: string, up: string, down: string) {
   const [score, setScore] = useState(0);
   const [upcomingBlocks, setUpcomingBlocks] = useState<Block[]>([]);
   const [isCommitting, setIsCommitting] = useState(false);
@@ -29,8 +29,6 @@ export function useTetris() {
 
   const startGame = useCallback(() => {
     const startingBlocks = [
-      getRandomBlock(),
-      getRandomBlock(),
       getRandomBlock(),
     ];
     setScore(0);
@@ -143,7 +141,7 @@ export function useTetris() {
           isPressingLeft,
           isPressingRight,
         });
-      }, 300);
+      }, 150);
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -151,39 +149,39 @@ export function useTetris() {
         return;
       }
 
-      if (event.key === 'ArrowDown') {
+      if (event.key === down) {
         setTickSpeed(TickSpeed.Fast);
       }
 
-      if (event.key === 'ArrowUp') {
+      if (event.key === up) {
         dispatchBoardState({
           type: 'move',
           isRotating: true,
         });
       }
 
-      if (event.key === 'ArrowLeft') {
+      if (event.key === left) {
         isPressingLeft = true;
         updateMovementInterval();
       }
 
-      if (event.key === 'ArrowRight') {
+      if (event.key === right) {
         isPressingRight = true;
         updateMovementInterval();
       }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowDown') {
+      if (event.key === down) {
         setTickSpeed(TickSpeed.Normal);
       }
 
-      if (event.key === 'ArrowLeft') {
+      if (event.key === left) {
         isPressingLeft = false;
         updateMovementInterval();
       }
 
-      if (event.key === 'ArrowRight') {
+      if (event.key === right) {
         isPressingRight = false;
         updateMovementInterval();
       }
@@ -197,7 +195,7 @@ export function useTetris() {
       clearInterval(moveIntervalID);
       setTickSpeed(TickSpeed.Normal);
     };
-  }, [dispatchBoardState, isPlaying]);
+  }, [dispatchBoardState, isPlaying, left, right, up, down]);
 
   const renderedBoard = structuredClone(board) as BoardShape;
   if (isPlaying) {
@@ -224,13 +222,13 @@ function getPoints(numCleared: number): number {
     case 0:
       return 0;
     case 1:
-      return 100;
+      return 1;
     case 2:
-      return 300;
+      return 3;
     case 3:
-      return 500;
+      return 5;
     case 4:
-      return 800;
+      return 8;
     default:
       throw new Error('Unexpected number of rows cleared');
   }

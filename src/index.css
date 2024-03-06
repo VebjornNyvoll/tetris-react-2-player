@@ -1,14 +1,28 @@
 .app {
   display: grid;
+  background-color: black;
   grid-template-areas:
     ". title ."
     ". game controls";
   grid-template-columns: repeat(3, 1fr);
 }
 
-h1 {
-  text-align: center;
+.misc {
   grid-area: title;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 {
+  font-family: 'Arial', sans-serif;
+  font-size:100px;
+  text-align: right;
+  
+  color:white;
+  display: flex;
 }
 
 button {
@@ -19,22 +33,21 @@ button {
   border: 2px solid black;
   user-select: none;
   margin: auto;
-  grid-area: game;
 }
 
-.controls {
-  grid-area: controls;
-}
 
 .row {
   display: flex;
 }
 
 .upcoming {
-  display: flex;
+  /* display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 10px; */
+  width: 120px;
+  height:60px;
+  margin-bottom: 10px;
 }
 
 .cell {
@@ -48,7 +61,7 @@ button {
 }
 
 .cell.Empty {
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(41, 33, 33);
 }
 
 .cell.I {
